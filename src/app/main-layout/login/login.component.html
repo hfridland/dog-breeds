@@ -29,6 +29,10 @@
     </mat-form-field>
   </p>
 
+  <p *ngIf="fAction === 'login'">
+    <a routerLink="/login" [queryParams]="{action: 'create'}">Create Account</a>
+  </p>
+
   <p>
     <button type="submit" mat-raised-button *ngIf="fAction === 'login'" [disabled]="form.invalid || submitted">Login</button>
     <button type="submit" mat-raised-button *ngIf="fAction === 'create'" [disabled]="form.invalid || submitted">Create</button>

@@ -38,21 +38,25 @@
           <span>{{ userComment.date | date}}</span>
         </div>
       </mat-card-content>
-      <mat-divider inset></mat-divider>
-      <mat-card-actions>
-        <button mat-button (click)="editCommentDialog(userComment)">Edit</button>
-        <button mat-button (click)="deleteComment(userComment)">Delete</button>
-      </mat-card-actions>
+      <div *ngIf="auth.email===userComment.email">
+        <mat-divider inset></mat-divider>
+        <mat-card-actions>
+          <button mat-button (click)="editCommentDialog(userComment)">Edit</button>
+          <button mat-button (click)="deleteComment(userComment)">Delete</button>
+        </mat-card-actions>
+      </div>
     </mat-card>
   </div>
 
-  <mat-form-field appearance="fill" class="textComment">
-    <mat-label>New comment</mat-label>
-    <textarea matInput rows="8" [(ngModel)]="newComment"></textarea>
-  </mat-form-field>
-  <p>
-    <button type="button" [disabled]="!newComment || !auth.isAuthenticated()"  (click)="postComment()">Post Comment</button>
-  </p>
+  <div *ngIf="auth.isAuthenticated()">
+    <mat-form-field appearance="fill" class="textComment">
+      <mat-label>New comment</mat-label>
+      <textarea matInput rows="8" [(ngModel)]="newComment"></textarea>
+    </mat-form-field>
+    <p>
+      <button type="button" [disabled]="!newComment || !auth.isAuthenticated()"  (click)="postComment()">Post Comment</button>
+    </p>
+  </div>
 
 </div>
 

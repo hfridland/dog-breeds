@@ -21,7 +21,7 @@ export class AuthService {
     return localStorage.getItem('fb-token');
   }
 
-  private static setToken(response: FbAuthResponse | null) {
+  private setToken(response: FbAuthResponse | null) {
     if (response) {
       const expDate = new Date(
         new Date().getTime() + +response.expiresIn * 1000
@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   logout() {
-    AuthService.setToken(null);
+    this.setToken(null);
   }
 
   isAuthenticated(): boolean {
@@ -67,40 +67,43 @@ export class AuthService {
   login(user: User): Observable<any> {
     user.returnSecureToken = true;
 
-    return (
-      this.http
-        .post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
-          user
-        )
+    return this.http
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`,
+        user
+      )
+      .pipe(
         // @ts-ignore
-        .pipe(tap(this.setToken), catchError(this.handleError.bind(this)))
-    );
+        tap(this.setToken),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   signUp(user: User): Observable<any> {
     user.returnSecureToken = true;
 
-    return (
-      this.http
-        .post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
-          user
-        )
+    return this.http
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.apiKey}`,
+        user
+      )
+      .pipe(
         // @ts-ignore
-        .pipe(tap(this.setToken), catchError(this.handleError.bind(this)))
-    );
+        tap(this.setToken),
+        catchError(this.handleError.bind(this))
+      );
   }
 
   changePassword(newPwd: string): Observable<any> {
-    return (
-      this.http
-        .post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${environment.apiKey}`,
-          { idToken: this.token, password: newPwd, returnSecureToken: true }
-        )
+    return this.http
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${environment.apiKey}`,
+        { idToken: this.token, password: newPwd, returnSecureToken: true }
+      )
+      .pipe(
         // @ts-ignore
-        .pipe(tap(this.setToken), catchError(this.handleError.bind(this)))
-    );
+        tap(this.setToken),
+        catchError(this.handleError.bind(this))
+      );
   }
 }
