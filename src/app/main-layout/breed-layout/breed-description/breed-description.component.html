@@ -1,0 +1,58 @@
+<div *ngIf="fBreedItem">
+  <div class="mat-title">
+    <h1 class="text-center">{{ fBreedItem.breed | titlecase }} {{ fBreedItem.subBreed | titlecase }}</h1>
+  </div>
+
+  <div class="imagesGallery">
+    <div
+      class="imageFrame"
+      *ngFor="let image of currentlyShownImages"
+    >
+      <a href="#" (click)="openShowImageDialog(image)">
+        <img class="image" [src]="image" alt="Error image loading">
+      </a>
+
+    </div>
+
+  </div>
+
+  <mat-paginator
+    #paginator
+    [length]="breedImages.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[20]"
+    (page)="onPage($event)"
+  ></mat-paginator>
+
+  <div class="mat-title">
+    <h2 class="text-center">Comments</h2>
+  </div>
+
+  <div class="userComments">
+    <mat-card class="userComment" *ngFor="let userComment of userComments">
+      <mat-card-content>
+        <p>{{ userComment.comment }}</p>
+        <div class="commentEmailDate">
+          {{ userComment.email }}
+          <span class="spacer"></span>
+          <span>{{ userComment.date | date}}</span>
+        </div>
+      </mat-card-content>
+      <mat-divider inset></mat-divider>
+      <mat-card-actions>
+        <button mat-button (click)="editCommentDialog(userComment)">Edit</button>
+        <button mat-button (click)="deleteComment(userComment)">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <mat-form-field appearance="fill" class="textComment">
+    <mat-label>New comment</mat-label>
+    <textarea matInput rows="8" [(ngModel)]="newComment"></textarea>
+  </mat-form-field>
+  <p>
+    <button type="button" [disabled]="!newComment || !auth.isAuthenticated()"  (click)="postComment()">Post Comment</button>
+  </p>
+
+</div>
+

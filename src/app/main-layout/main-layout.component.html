@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="routerLink" routerLink="/">
+      Dog Breed Images
+  </span>
+  <span class="spacer">
+    <span *ngIf="!auth.email">User Anonymous</span>
+    <span *ngIf="auth.email">User: {{auth.email}}</span>
+  </span>
+  <button mat-icon-button matTooltip="Login" *ngIf="!auth.isAuthenticated()">
+    <mat-icon routerLink="/login" [queryParams]="{action: 'login'}">login</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Logout" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item routerLink="/login" [queryParams]="{action: 'create'}">Create Account</button>
+  <button mat-menu-item routerLink="/login" [queryParams]="{action: 'changePwd'}" *ngIf="auth.isAuthenticated()">Change Password</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item routerLink="/about">About Dog Breed Images</button>
+</mat-menu>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

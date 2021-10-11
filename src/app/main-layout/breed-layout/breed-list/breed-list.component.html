@@ -1,0 +1,12 @@
+<mat-form-field appearance="outline">
+  <mat-label>Search breed</mat-label>
+  <input matInput placeholder="Search breed" [(ngModel)]="searchStr">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<mat-selection-list [multiple]="false">
+  <mat-list-option *ngFor="let breedItem of breedItems | searchBreeds:searchStr" (selectedChange)="selected($event, breedItem.breed, breedItem.subBreed)">
+    <span *ngIf="!breedItem.subBreed">{{breedItem.breed | titlecase}}</span>
+    <span *ngIf="breedItem.subBreed" class="nested">{{breedItem.subBreed | titlecase}}</span>
+  </mat-list-option>
+</mat-selection-list>

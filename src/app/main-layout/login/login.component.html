@@ -1,0 +1,37 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h2 *ngIf="fAction === 'login'">Login (for entering comments)</h2>
+  <h2 *ngIf="fAction === 'create'">Create Account (for entering comments)</h2>
+  <h2 *ngIf="fAction === 'changePwd'">Change Account Password</h2>
+
+  <p>
+    <mat-error *ngIf="auth.error$ | async as error">{{ error }}</mat-error>
+  </p>
+  <p>
+    <mat-error *ngIf="message">{{ message }}</mat-error>
+  </p>
+
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your email</mat-label>
+      <input matInput placeholder="pat@example.com" formControlName="email" required [readonly]="fAction === 'changePwd'">
+      <mat-error *ngIf="form.get('email')!.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter your password</mat-label>
+      <input matInput [type]="hidePwd ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix (click)="hidePwd = !hidePwd" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePwd">
+        <mat-icon>{{hidePwd ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('password')!.invalid">{{getPwdErrorMessage()}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <button type="submit" mat-raised-button *ngIf="fAction === 'login'" [disabled]="form.invalid || submitted">Login</button>
+    <button type="submit" mat-raised-button *ngIf="fAction === 'create'" [disabled]="form.invalid || submitted">Create</button>
+    <button type="submit" mat-raised-button *ngIf="fAction === 'changePwd'" [disabled]="form.invalid || submitted">Change Password</button>
+  </p>
+</form>

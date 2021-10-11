@@ -1,0 +1,34 @@
+.text-center {
+  text-align: center;
+}
+
+.imagesGallery {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.imageFrame {
+  margin: 5px;
+}
+
+.image {
+  width: 200px;
+}
+
+.textComment {
+  width: 80%;
+}
+
+.commentEmailDate {
+  display: flex;
+}
+
+.spacer {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.userComment {
+  margin-bottom: 10px;
+}
