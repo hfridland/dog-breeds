@@ -3,26 +3,20 @@
     <h1 class="text-center">{{ fBreedItem.breed | titlecase }} {{ fBreedItem.subBreed | titlecase }}</h1>
   </div>
 
-  <div class="imagesGallery">
-    <div
-      class="imageFrame"
-      *ngFor="let image of currentlyShownImages"
-    >
-      <a href="#" (click)="openShowImageDialog(image)">
-        <img class="image" [src]="image" alt="Error image loading">
-      </a>
-
+  <div fxFill fxLayout="column" fxLayoutAlign="space-between">
+    <div fxLayout="row wrap">
+      <ng-container *ngFor="let image of currentlyShownImages">
+        <img [src]="image" class="image">
+      </ng-container>
     </div>
 
+    <mat-paginator #paginator
+                   [length]="breedImages.length"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="[20]"
+                   (page)="onPage($event)">
+    </mat-paginator>
   </div>
-
-  <mat-paginator
-    #paginator
-    [length]="breedImages.length"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="[20]"
-    (page)="onPage($event)"
-  ></mat-paginator>
 
   <div class="mat-title">
     <h2 class="text-center">Comments</h2>
