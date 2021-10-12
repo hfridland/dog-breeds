@@ -98,15 +98,12 @@ export class BreedDescriptionComponent implements OnInit, OnDestroy {
   }
 
   openShowImageDialog(image: string) {
-    // the dialog does not opens if I call dialog.open directly from anchor around image
-    setTimeout(() => {
-      this.dialog.open(ShowImageDialogComponent, {
-        data: {
-          image,
-          breedItem: this.fBreedItem,
-        },
-      });
-    }, 100);
+    this.dialog.open(ShowImageDialogComponent, {
+      data: {
+        image,
+        breedItem: this.fBreedItem,
+      },
+    });
   }
 
   postComment() {

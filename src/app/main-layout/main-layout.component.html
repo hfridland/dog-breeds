@@ -18,6 +18,9 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
+  <button mat-menu-item *ngIf="!auth.isAuthenticated()" routerLink="/login" [queryParams]="{action: 'login'}">Login</button>
+  <button mat-menu-item *ngIf="auth.isAuthenticated()" (click)="auth.logout()">Logout</button>
+  <mat-divider></mat-divider>
   <button mat-menu-item routerLink="/login" [queryParams]="{action: 'create'}">Create Account</button>
   <button mat-menu-item routerLink="/login" [queryParams]="{action: 'changePwd'}" *ngIf="auth.isAuthenticated()">Change Password</button>
   <mat-divider></mat-divider>
