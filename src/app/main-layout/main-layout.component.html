@@ -1,20 +1,33 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span class="routerLink" routerLink="/">
-      Dog Breed Images
-  </span>
-  <span class="spacer">
-    <span *ngIf="!auth.email">User Anonymous</span>
+<mat-toolbar color="primary" class="toolbar">
+  <div class="w100">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="routerLink" routerLink="/">
+        Dog Breed Images
+    </span>
+  </div>
+  <span class="spacer w100 flex">
+    <span *ngIf="!auth.email">User: Anonymous</span>
     <span *ngIf="auth.email">User: {{auth.email}}</span>
+    <span class="mobSpacer"></span>
+    <span class="mobOnly">
+      <button mat-icon-button matTooltip="Login" *ngIf="!auth.isAuthenticated()">
+        <mat-icon routerLink="/login" [queryParams]="{action: 'login'}">login</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Logout" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </span>
   </span>
-  <button mat-icon-button matTooltip="Login" *ngIf="!auth.isAuthenticated()">
-    <mat-icon routerLink="/login" [queryParams]="{action: 'login'}">login</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Logout" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
-    <mat-icon>logout</mat-icon>
-  </button>
+  <div class="nonMobOnly">
+    <button mat-icon-button matTooltip="Login" *ngIf="!auth.isAuthenticated()">
+      <mat-icon routerLink="/login" [queryParams]="{action: 'login'}">login</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Logout" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">

@@ -9,7 +9,8 @@ import { AuthService } from '../../../services/auth.service';
 import { CommentsService } from '../../../services/comments.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditUserCommentDialogComponent } from './edit-user-comment-dialog/edit-user-comment-dialog.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-breed-description',
@@ -36,7 +37,8 @@ export class BreedDescriptionComponent implements OnInit, OnDestroy {
     public auth: AuthService,
     private commentsService: CommentsService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   @Input() set breedItem(value: BreedItem) {
@@ -69,7 +71,17 @@ export class BreedDescriptionComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (window.innerWidth <= 767) {
+      this.route.params.subscribe((params) => {
+        const breedItem: BreedItem = {
+          breed: params['breed'],
+          subBreed: params['subbreed'],
+        };
+        this.breedItem = breedItem;
+      });
+    }
+  }
 
   ngOnDestroy(): void {
     if (this.imgsSub) {
@@ -158,7 +170,6 @@ export class BreedDescriptionComponent implements OnInit, OnDestroy {
           this._snackBar.open(`Error ${error.message}`, 'Close');
         }
       );
-      //console.log(result);
     });
   }
 

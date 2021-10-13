@@ -9,6 +9,7 @@ import { BreedsService } from '../../../services/breeds.service';
 import { BreedItem } from '../../../interfaces';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-breed-list',
@@ -23,6 +24,7 @@ export class BreedListComponent implements OnInit, OnDestroy {
 
   constructor(
     private breedsService: BreedsService,
+    private router: Router,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -44,8 +46,12 @@ export class BreedListComponent implements OnInit, OnDestroy {
   }
 
   selected(isSel: boolean, breed: string, subBreed: string) {
-    if (isSel) {
-      this.onSelectBreed.emit({ breed: breed, subBreed: subBreed });
+    if (window.innerWidth > 767) {
+      if (isSel) {
+        this.onSelectBreed.emit({ breed: breed, subBreed: subBreed });
+      }
+    } else {
+      this.router.navigate(['/breed-descr', breed, subBreed]);
     }
   }
 }
